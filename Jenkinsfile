@@ -11,14 +11,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Tes étapes de build ici
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Testing...'
-                // Tes étapes de test ici
             }
         }
     }
@@ -27,14 +25,14 @@ pipeline {
         success {
             echo '✅ Build completed successfully!'
             script {
-                sh 'curl -X POST "http://host.docker.internal:8081/api/jenkins-logs/webhook?jobName=stocksens&buildNumber=${BUILD_NUMBER}&buildStatus=SUCCESS&token=test"'
+                bat 'curl -X POST "http://host.docker.internal:8081/api/jenkins-logs/webhook?jobName=stocksens&buildNumber=%BUILD_NUMBER%&buildStatus=SUCCESS&token=test"'
             }
         }
 
         failure {
             echo '❌ Build failed!'
             script {
-                sh 'curl -X POST "http://host.docker.internal:8081/api/jenkins-logs/webhook?jobName=stocksens&buildNumber=${BUILD_NUMBER}&buildStatus=FAILURE&token=test"'
+                bat 'curl -X POST "http://host.docker.internal:8081/api/jenkins-logs/webhook?jobName=stocksens&buildNumber=%BUILD_NUMBER%&buildStatus=FAILURE&token=test"'
             }
         }
     }
